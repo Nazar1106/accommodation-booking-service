@@ -8,7 +8,6 @@ import com.example.accommodationbookingservice.entity.payment.Payment;
 import com.example.accommodationbookingservice.entity.payment.PaymentStatus;
 import com.example.accommodationbookingservice.exception.BookingPaymentNotAllowedException;
 import com.example.accommodationbookingservice.exception.EntityNotFoundException;
-import com.example.accommodationbookingservice.exception.InvalidPaymentStatusException;
 import com.example.accommodationbookingservice.exception.PaymentNotConfirmedException;
 import com.example.accommodationbookingservice.exception.StripePaymentSessionException;
 import com.example.accommodationbookingservice.exception.UnauthorizedBookingAccessException;
@@ -60,19 +59,18 @@ public class PaymentServiceImpl implements PaymentService {
     private static final String BECAUSE_BOOKING_STATUS = " because booking status ";
     private static final String USER_WITH_EMAIL = "User with email ";
     private static final String CANT_HAVE_PERMISSION_TO_BOOKING_WITH_ID =
-            " cant have permission to booking with id ";
+            " cant have permission to booking with id. ";
     private static final String FAILED_TO_RETRIEVE_STRIPE_SESSION =
-            "Failed to retrieve Stripe session ";
+            "Failed to retrieve Stripe session. ";
     private static final String CANT_FIND_PAYMENT_WHERE_SESSION_ID =
-            "Cant find payment where session id ";
+            "Cant find payment where session id. ";
     private static final String FAILED_TO_CREATE_STRIPE_CHECKOUT_SESSION =
-            "Failed to create Stripe Checkout session ";
+            "Failed to create Stripe Checkout session. ";
     private static final int VAL = 100;
     private static final String CAN_T_PAY_BOOKING_WITH_ID = "Can't pay booking with id ";
     private static final String CANT_CANCEL_STRIPE_SESSION = "Cant cancel stripe session ";
-    private static final String CANT_CANCEL_PAYMENT_WITH_ID = "Cant cancel payment with id ";
-    private static final String BECAUSE_STATUS = " because status ";
     private static final String CURRENT_PAYMENT_STATUS_IS = "Current payment status is ";
+
     private final String successUrl;
     private final String cancelUrl;
     private final BookingNotificationBot bookingNotificationBot;
@@ -141,23 +139,22 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     public PaymentDto cancelPaymentAndBooking(String sessionId) {
         Payment payment = getPaymentBySessionId(sessionId);
-        if (!payment.getStatus().getName().equals(PaymentServiceImpl.PENDING_PAYMENT_STATUS)) {
-            throw new InvalidPaymentStatusException(CANT_CANCEL_PAYMENT_WITH_ID + payment.getId()
-                    + BECAUSE_STATUS + payment.getStatus().getName());
-        }
+        checkPaymentStatus(payment);
         updatePaymentStatus(payment, CANCEL_PAYMENT_STATUS);
-        updateBookingStatus(payment.getBooking(),CANCELED_BOOKING_STATUS);
+        updateBookingStatus(payment.getBooking(), CANCELED_BOOKING_STATUS);
         Session sessionById = getSessionById(payment.getSessionId());
         try {
             sessionById.expire();
         } catch (StripeException e) {
-            throw new StripePaymentSessionException(CANT_CANCEL_STRIPE_SESSION + e.getMessage());
+            throw new StripePaymentSessionException(CANT_CANCEL_STRIPE_SESSION
+                    + e.getMessage());
         }
         String paymentMessage = TelegramNotificationBuilder.paymentCancelled(payment);
         String bookingMessage = TelegramNotificationBuilder.bookingCancelled(payment.getBooking());
         String email = payment.getBooking().getUser().getEmail();
         bookingNotificationBot.sendMessage(email, paymentMessage);
         bookingNotificationBot.sendMessage(email, bookingMessage);
+
         return paymentMapper.toDto(payment);
     }
 
@@ -240,10 +237,22 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setStatus(paidStatus);
     }
 
+    private void updatePaymentStatus(Payment payment, PaymentStatus.PaymentStatusName statusName) {
+        setStatusToPayment(payment, statusName);
+        paymentRepository.save(payment);
+    }
+
     private Payment getPaymentBySessionId(String sessionId) {
         return paymentRepository.findPaymentBySessionId(sessionId).orElseThrow(
                 () -> new EntityNotFoundException(
                         CANT_FIND_PAYMENT_WHERE_SESSION_ID + sessionId));
+    }
+
+    private void checkPaymentStatus(Payment payment) {
+        if (!payment.getStatus().getName().equals(PaymentServiceImpl.PENDING_PAYMENT_STATUS)) {
+            throw new StripePaymentSessionException(CANT_CANCEL_STRIPE_SESSION + payment.getId()
+                    + BECAUSE_BOOKING_STATUS + payment.getStatus().getName());
+        }
     }
 
     private Session getSessionById(String id) {
@@ -257,13 +266,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     private void updateBookingStatus(Booking booking, BookingStatus.BookingStatusName statusName) {
         BookingStatus bookingStatus
-                = bookingStatusRepository.findByName(statusName).orElseThrow();
+                = bookingStatusRepository.findByName(statusName).orElseThrow(()
+                                -> new EntityNotFoundException("Can't find status by name"));
         booking.setStatus(bookingStatus);
         bookingRepository.save(booking);
-    }
-
-    private void updatePaymentStatus(Payment payment, PaymentStatus.PaymentStatusName statusName) {
-        setStatusToPayment(payment, statusName);
-        paymentRepository.save(payment);
     }
 }

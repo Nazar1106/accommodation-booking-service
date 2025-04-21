@@ -63,14 +63,12 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public BookingDto save(BookingRequestDto request, String userEmail) {
         validateBookingDates(request.getCheckInDate(), request.getCheckOutDate());
-
         Booking booking = bookingMapper.toModelWithoutStatusAndUser(request);
-
         Accommodation accommodation = fetchAccommodationIfAvailable(
                 request.getAccommodationId(),
                 request.getCheckInDate(),
-                request.getCheckOutDate()
-        );
+                request.getCheckOutDate());
+
         booking.setAccommodation(accommodation);
         User user = fetchUser(userEmail);
         booking.setUser(user);

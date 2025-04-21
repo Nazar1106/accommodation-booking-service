@@ -1,9 +1,11 @@
 package com.example.accommodationbookingservice.dto.user;
 
 import jakarta.validation.constraints.Email;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class UserUpdateRequestDto {
     @Email
     private String email;

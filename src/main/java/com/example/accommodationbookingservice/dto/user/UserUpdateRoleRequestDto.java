@@ -2,9 +2,11 @@ package com.example.accommodationbookingservice.dto.user;
 
 import com.example.accommodationbookingservice.entity.user.RoleName;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class UserUpdateRoleRequestDto {
 
     @NotNull

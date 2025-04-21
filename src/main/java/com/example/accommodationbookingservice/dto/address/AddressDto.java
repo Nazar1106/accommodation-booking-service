@@ -1,8 +1,10 @@
 package com.example.accommodationbookingservice.dto.address;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class AddressDto {
     private String country;
     private String state;

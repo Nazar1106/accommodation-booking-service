@@ -38,6 +38,12 @@ databaseChangeLog:
                     nullable: false
 
               - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    nullable: false
+
+              - column:
                   name: booking_status_id
                   type: BIGINT
                   constraints:

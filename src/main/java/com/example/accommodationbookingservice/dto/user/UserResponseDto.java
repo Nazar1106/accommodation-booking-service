@@ -5,7 +5,6 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 
-//@Data
 @Getter
 @Setter
 public class UserResponseDto {

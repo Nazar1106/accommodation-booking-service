@@ -24,5 +24,4 @@ public class OpenApiConfig {
                                 .bearerFormat(BEARER_FORMAT)))
                 .addSecurityItem(new SecurityRequirement().addList(BEARER_AUTH));
     }
-
 }

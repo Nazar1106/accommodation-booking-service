@@ -1,8 +1,10 @@
 package com.example.accommodationbookingservice.dto.bookingstatusdto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class BookingStatusDto {
     private Long id;
     private String name;

@@ -18,6 +18,7 @@ import org.mapstruct.MappingTarget;
 public interface BookingMapper {
     String DESCRIPTION = "Booking at %s, %s, %s %s %s from %s to %s";
 
+    @Mapping(target = "createAt", source = "bookingCreatedAt")
     BookingDto toDto(Booking booking);
 
     @Mapping(target = "status", ignore = true)

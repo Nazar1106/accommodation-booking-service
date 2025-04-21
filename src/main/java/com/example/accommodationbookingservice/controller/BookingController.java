@@ -5,6 +5,7 @@ import com.example.accommodationbookingservice.dto.bookingdto.BookingRequestDto;
 import com.example.accommodationbookingservice.service.BookingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -34,7 +35,7 @@ public class BookingController {
     @Operation(summary = "Create a new booking",
             description = "Allows a user with the CUSTOMER role to create a new "
                     + "booking for an accommodation.")
-    public BookingDto save(@RequestBody BookingRequestDto requestDto,
+    public BookingDto save(@RequestBody @Valid BookingRequestDto requestDto,
                            Authentication authentication) {
         return bookingService.save(requestDto, authentication.getName());
     }
@@ -80,7 +81,7 @@ public class BookingController {
             description = "Allows a customer to update the check-in and check-out dates "
                     + "of their booking. Accessible only by the user who owns the booking.")
     public BookingDto update(@PathVariable Long id,
-                             @RequestBody BookingRequestDto requestDto,
+                             @RequestBody @Valid BookingRequestDto requestDto,
                              Authentication authentication) {
         return bookingService.updateInfo(id, requestDto, authentication.getName());
     }

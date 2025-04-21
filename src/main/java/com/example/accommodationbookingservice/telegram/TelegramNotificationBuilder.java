@@ -18,6 +18,13 @@ public class TelegramNotificationBuilder {
             "Welcome, %s! You have successfully initiated "
             + "the booking process.";
 
+    private static final String NO_EXPIRED_BOOKINGS_MESSAGE =
+            "Great news! There are no expired bookings today!";
+
+    private static final String BOOKING_EXPIRATION_NOTIFICATION_TEMPLATE =
+            "Hello %s, your booking for %s at %s from %s to %s has expired. "
+                    + "You can make a new reservation at your convenience.";
+
     private static final String BOOKING_CREATED_TEMPLATE =
             "Hello %s, your booking for %s located at %s from %s "
             + "to %s has been successfully created.";
@@ -29,6 +36,10 @@ public class TelegramNotificationBuilder {
     private static final String BOOKING_CONFIRMED_TEMPLATE =
             "Dear %s, your booking for %s at %s from %s to %s "
             + "has been confirmed. We look forward to welcoming you!";
+
+    private static final String UPCOMING_BOOKING_REMINDER_TEMPLATE =
+            "Hello %s! Just a reminder that your stay at %s, located at %s, "
+                    + "begins on %s and ends on %s. Check-in starts at 12:00. See you soon!";
 
     private static final String BOOKING_CANCELLED_TEMPLATE =
             "Hello %s, your booking for %s at %s from %s to %s "
@@ -105,6 +116,18 @@ public class TelegramNotificationBuilder {
         String firstName = booking.getUser().getFirstName();
         Long bookingId = booking.getId();
         return String.format(PAYMENT_CANCELLED_TEMPLATE, firstName, bookingId);
+    }
+
+    public static String bookingExpired(Booking booking) {
+        return getString(booking, BOOKING_EXPIRATION_NOTIFICATION_TEMPLATE);
+    }
+
+    public static String getNoExpiredBookingsMessage() {
+        return NO_EXPIRED_BOOKINGS_MESSAGE;
+    }
+
+    public static String generateUpcomingBookingReminder(Booking booking) {
+        return getString(booking, UPCOMING_BOOKING_REMINDER_TEMPLATE);
     }
 
     private static String formatDate(LocalDate date) {
