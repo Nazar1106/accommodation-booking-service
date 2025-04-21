@@ -1,4 +1,4 @@
-package com.example.accommodationbookingservice.telegram;
+package com.example.accommodationbookingservice.testutil;
 
 import com.example.accommodationbookingservice.entity.telegram.TelegramChat;
 import com.example.accommodationbookingservice.testutil.UserUtil;

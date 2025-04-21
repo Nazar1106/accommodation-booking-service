@@ -13,7 +13,7 @@ import com.example.accommodationbookingservice.mapper.UserMapper;
 import com.example.accommodationbookingservice.repository.TelegramChatRepository;
 import com.example.accommodationbookingservice.repository.UserRepository;
 import com.example.accommodationbookingservice.telegram.EmailTokenService;
-import com.example.accommodationbookingservice.telegram.TelegramChatUtil;
+import com.example.accommodationbookingservice.testutil.TelegramChatUtil;
 import com.example.accommodationbookingservice.testutil.UserUtil;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
