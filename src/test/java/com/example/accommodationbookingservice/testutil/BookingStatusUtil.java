@@ -29,10 +29,24 @@ public class BookingStatusUtil {
         return bookingStatusDto;
     }
 
+    public static BookingStatusDto getBookingStatusCanceledDto2() {
+        BookingStatusDto bookingStatusDto = new BookingStatusDto();
+        bookingStatusDto.setId(3L);
+        bookingStatusDto.setName("CANCELED");
+        return bookingStatusDto;
+    }
+
     public static BookingStatusDto getBookingStatusDto() {
         BookingStatusDto bookingStatusDto = new BookingStatusDto();
         bookingStatusDto.setId(1L);
         bookingStatusDto.setName("PENDING");
+        return bookingStatusDto;
+    }
+
+    public static BookingStatusDto getBookingStatusDtoExpired() {
+        BookingStatusDto bookingStatusDto = new BookingStatusDto();
+        bookingStatusDto.setId(4L);
+        bookingStatusDto.setName("EXPIRED");
         return bookingStatusDto;
     }
 

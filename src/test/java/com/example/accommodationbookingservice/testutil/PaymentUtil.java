@@ -4,6 +4,7 @@ import com.example.accommodationbookingservice.dto.payment.PaymentDetailsDto;
 import com.example.accommodationbookingservice.dto.payment.PaymentDto;
 import com.example.accommodationbookingservice.entity.payment.Payment;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class PaymentUtil {
 
@@ -39,4 +40,13 @@ public class PaymentUtil {
         return paymentDetailsDto;
     }
 
+    public static Payment getExpectedPayment() {
+        Payment payment = new Payment();
+        payment.setId(1L);
+        payment.setSessionUrl("session/url");
+        payment.setSessionId("testSessionId1");
+        payment.setAmount(BigDecimal.valueOf(2000).setScale(2, RoundingMode.HALF_UP));
+
+        return payment;
+    }
 }

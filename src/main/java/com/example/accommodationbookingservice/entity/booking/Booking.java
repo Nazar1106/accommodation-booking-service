@@ -39,7 +39,7 @@ public class Booking {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
     @Column(name = "created_at", nullable = false)
-    private LocalDateTime bookingCreatedAt;
+    private LocalDateTime bookingCreatedAt = LocalDateTime.now();
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_status_id", nullable = false)
     private BookingStatus status;
