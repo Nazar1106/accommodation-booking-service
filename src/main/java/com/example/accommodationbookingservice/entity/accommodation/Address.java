@@ -30,13 +30,13 @@ public class Address {
     private String city;
     @Column(nullable = false)
     private String street;
-    @Column(name = "house_number", nullable = false)
+    @Column(nullable = false)
     private String houseNumber;
-    @Column(name = "apartment_number")
+    @Column
     private String apartmentNumber;
     private String floor;
-    @Column(name = "zip_code", nullable = false)
+    @Column(nullable = false)
     private String zipCode;
-    @Column(name = "is_deleted",nullable = false)
+    @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = false;
 }

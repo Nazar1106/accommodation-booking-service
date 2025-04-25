@@ -34,6 +34,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class PaymentServiceImpl implements PaymentService {
     private static final SessionCreateParams.PaymentMethodType PAYMENT_METHOD
             = SessionCreateParams.PaymentMethodType.CARD;
@@ -70,6 +71,7 @@ public class PaymentServiceImpl implements PaymentService {
     private static final String CAN_T_PAY_BOOKING_WITH_ID = "Can't pay booking with id ";
     private static final String CANT_CANCEL_STRIPE_SESSION = "Cant cancel stripe session ";
     private static final String CURRENT_PAYMENT_STATUS_IS = "Current payment status is ";
+    private static final String CAN_T_FIND_STATUS_BY_NAME = "Can't find status by name";
 
     private final String successUrl;
     private final String cancelUrl;
@@ -82,7 +84,6 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentStatusRepository paymentStatusRepository;
 
     @Override
-    @Transactional
     public String createPaymentCheckoutSession(Long id, String email) {
         Booking booking = bookingRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(CANT_FIND_BOOKING_ID + id));
@@ -114,7 +115,6 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @Transactional
     public PaymentDto successPayment(String sessionId) {
         Payment payment = getPaymentBySessionId(sessionId);
         if (payment.getStatus().getName().equals(PAID_PAYMENT_STATUS)) {
@@ -136,7 +136,6 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @Transactional
     public PaymentDto cancelPaymentAndBooking(String sessionId) {
         Payment payment = getPaymentBySessionId(sessionId);
         checkPaymentStatus(payment);
@@ -159,7 +158,6 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @Transactional
     public List<PaymentDetailsDto> findAllPayments() {
         return paymentRepository.findAll().stream()
                 .map(paymentMapper::toInfoDto)
@@ -167,7 +165,6 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @Transactional
     public List<PaymentDetailsDto> findPaymentsByUserEmail(String email) {
         return paymentRepository.findPaymentByBookingUserEmail(email).stream()
                 .map(paymentMapper::toInfoDto)
@@ -267,7 +264,7 @@ public class PaymentServiceImpl implements PaymentService {
     private void updateBookingStatus(Booking booking, BookingStatus.BookingStatusName statusName) {
         BookingStatus bookingStatus
                 = bookingStatusRepository.findByName(statusName).orElseThrow(()
-                                -> new EntityNotFoundException("Can't find status by name"));
+                                -> new EntityNotFoundException(CAN_T_FIND_STATUS_BY_NAME));
         booking.setStatus(bookingStatus);
         bookingRepository.save(booking);
     }

@@ -37,7 +37,7 @@ public class Accommodation {
     private Address address;
     @Column(nullable = false)
     private String size;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
             name = "accommodations_amenity_types",
             joinColumns = @JoinColumn(name = "accommodation_id"),
@@ -48,6 +48,6 @@ public class Accommodation {
     private BigDecimal dailyRate;
     @Column(nullable = false)
     private Integer availability;
-    @Column(name = "is_deleted",nullable = false)
+    @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = false;
 }

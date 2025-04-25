@@ -2,7 +2,6 @@ package com.example.accommodationbookingservice.repository;
 
 import com.example.accommodationbookingservice.entity.user.User;
 import java.util.Optional;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,7 +14,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findUserByEmail(String email);
 
     @EntityGraph(attributePaths = "roles")
-    Optional<User> findUserById(@NotNull Long id);
+    Optional<User> findUserById(Long id);
 
     boolean existsByEmail(String email);
 }

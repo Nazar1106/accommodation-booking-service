@@ -20,8 +20,7 @@ public class AmenityType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "name",
-            nullable = false,
+    @Column(nullable = false,
             unique = true,
             columnDefinition = "varchar")
     @Enumerated(EnumType.STRING)

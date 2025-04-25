@@ -22,7 +22,7 @@ public class BookingNotificationBot extends TelegramLongPollingBot {
     public static final String TELEGRAM_BOT_EXCEPTION = "Telegram bot exception: ";
     public static final String MASSAGE_DONT_HAVE_TOKEN = "Massage dont have token";
     public static final String REGEX = " ";
-    public static final String STRING = "/start";
+    public static final String START = "/start";
     public static final String CANT_DECODE_TOKEN = "Cant decode token: ";
     private final TelegramService telegramService;
     private final TelegramChatRepository telegramChatRepository;
@@ -35,10 +35,11 @@ public class BookingNotificationBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+        System.out.println("Bot started...");
         if (update.hasMessage() && update.getMessage().hasText()) {
             String messageText = update.getMessage().getText();
             Long chatId = update.getMessage().getChatId();
-            if (messageText.startsWith(STRING)) {
+            if (messageText.startsWith(START)) {
                 String token = getToken(messageText);
                 try {
                     UserResponseDto userDto = telegramService.auth(token, chatId);
