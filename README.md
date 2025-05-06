@@ -5,19 +5,25 @@ process for property bookings. It allows users to reserve accommodations, enable
 and integrates with Stripe for secure payments and Telegram for real-time notifications. Designed to replace outdated manual workflows,
 the system offers a modern, scalable, and reliable solution for real-world rental management.
 
+## Entity Relationship Diagram (ERD)
+The following diagram visualizes the core entity relationships in the Accommodation Booking System:
+![Preview](diagram.png)
+
 ## Technologies Used
-- **Java 21** — core language for backend logic
-- **Spring Boot** — simplifies application configuration and setup
-- **Spring Security + JWT** — for role-based authentication and authorization
-- **Liquibase** — for version-controlled database schema management
-- **MySQL** — as relational database storage
-- **Stripe API** — for secure online payment integration
-- **Telegram Bot API** — for sending booking and payment notifications
-- **Docker & Docker Compose** — for containerized deployment
-- **Testcontainers & JUnit 5** — for writing robust unit and integration tests
-- **Springdoc OpenAPI (Swagger)** — for automatic API documentation
-- **GitHub Actions** — for CI/CD pipeline automation
-- **Checkstyle** — to enforce clean code standards
+- **Java 21** — the core programming language used for backend development
+- **Spring Boot 3.4.1** — framework for rapid application setup and configuration
+- **Spring Security 6.4.4 + JWT 0.12.6** — handles authentication and role-based authorization
+- **Liquibase** — enables version-controlled database schema migrations
+- **MySQL 8.2.0** — relational database management system
+- **Stripe API 24.0.0** — integration for secure online payment processing
+- **Telegram Bot API 6.9.7.1** — delivers real-time notifications for bookings and payments
+- **Docker & Docker Compose** — used for containerization and local deployment
+- **Testcontainers 1.20.6 + JUnit 5** — provides reliable unit and integration testing environments
+- **Springdoc OpenAPI 2.8.1 (Swagger)** — generates interactive API documentation
+- **GitHub Actions** — automates CI/CD pipelines for testing and deployment
+- **Checkstyle** — ensures consistent code quality and formatting
+- **Lombok 1.18.34** — minimizes boilerplate code using annotations
+- **MapStruct 1.6.3** — automates mapping between entities and DTOs
 
 ## Project Structure
 The project follows a standard Spring Boot layered architecture, organized into controllers, services, and repositories
@@ -47,9 +53,9 @@ To set up and run the project locally, follow these steps:
    git clone https://github.com/Nazar1106/accommodation-booking-service.git
    cd accommodation-booking-service
 2. **Ensure you have Java 21 installed.**
-2. **Ensure you have Maven installed.**
-3. **Ensure you have Docker installed.**
-4. **Update the database configuration in the `.env` file.**
+3. **Ensure you have Maven installed.**
+4. **Ensure you have Docker installed.**
+5. **Update the database configuration in the `.env` file.**
 
 **Example `.env` file:**
 ```bash 
@@ -79,7 +85,7 @@ BOT_NAME=your_bot_name_here
 BOT_TOKEN=your_bot_token_here
 TELEGRAM_SECRET=your_telegram_secret_here
 ```
-5. **Build the project using Maven:**
+6. **Build the project using Maven:**
 ```bash 
 mvn clean package
 ```
